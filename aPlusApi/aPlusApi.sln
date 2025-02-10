@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinderfyBackend", "TinderfyBackend.csproj", "{092B11FE-C581-4834-84F4-3D552DB277D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{092B11FE-C581-4834-84F4-3D552DB277D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092B11FE-C581-4834-84F4-3D552DB277D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092B11FE-C581-4834-84F4-3D552DB277D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092B11FE-C581-4834-84F4-3D552DB277D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C912DF7-5F05-4AF8-9206-BC4D28CA0788}
+	EndGlobalSection
+EndGlobal

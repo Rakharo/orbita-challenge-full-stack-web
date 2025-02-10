@@ -1,0 +1,6 @@
+@aPlusApi_HostAddress = http://localhost:5013
+
+GET {{aPlusApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
