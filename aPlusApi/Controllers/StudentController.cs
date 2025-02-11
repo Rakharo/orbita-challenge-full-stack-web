@@ -1,122 +1,81 @@
-using Microsoft.AspNetCore.Mvc;
+using aPlusApi.Interfaces.Business;
 using aPlusApi.Models;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
-namespace aPlusApi.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class StudentsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class StudentController : ControllerBase
+    private readonly IStudentBusiness _studentBusiness;
+
+    public StudentsController(IStudentBusiness studentBusiness)
     {
-        private readonly AppDbContext _context;
-        public StudentController(AppDbContext context)
+        _studentBusiness = studentBusiness;
+    }
+
+    // POST
+    [HttpPost]
+    public IActionResult CreateStudent([FromBody] Student student)
+    {
+        try
         {
-            _context = context;
+            var ra = _studentBusiness.CreateStudent(student);
+            return Ok(new { message = "Aluno criado com sucesso", ra });
         }
-
-        // Método para inserir um estudante
-        [HttpPost]
-        public async Task<IActionResult> AddStudent([FromBody] Student student)
+        catch (Exception ex)
         {
-            if (student == null)
-            {
-                return BadRequest("Dados inválidos.");
-            }
-
-            _context.Student.Add(student);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetStudentById), new { Id = student.Id }, student);
+            return BadRequest(new { message = ex.Message });
         }
+    }
 
+    // GET All
+    [HttpGet]
+    public IActionResult GetAllStudents([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    {
+        return Ok(_studentBusiness.GetAllStudents(pageNumber, pageSize));
+    }
 
-        // Método para buscar um estudante por ID
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetStudentById(int Id)
+    // GET ByID
+    [HttpGet("{ra}")]
+    public IActionResult GetStudentById(int ra)
+    {
+        var student = _studentBusiness.GetStudentById(ra);
+        if (student == null)
         {
-            var student = await _context.Student.FindAsync(Id);
-
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(student);
+            return NotFound(new { message = "Aluno não encontrado" });
         }
+        return Ok(student);
+    }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAllStudents(int pageNumber = 1, int pageSize = 10)
+    // DELETE
+    [HttpDelete("{ra}")]
+    public IActionResult DeleteStudent(int ra)
+    {
+        if (_studentBusiness.DeleteStudent(ra))
         {
-            // Calcula o número de registros a ser "pulados" com base na página atual
-            var skip = (pageNumber - 1) * pageSize;
-
-            // Consulta os estudantes aplicando paginação
-            var students = await _context.Student
-                                         .Skip(skip)
-                                         .Take(pageSize)
-                                         .ToListAsync();
-
-            if (students == null || !students.Any())
-            {
-                return NotFound();  // Retorna 404 caso não haja estudantes
-            }
-
-            // Retorna os estudantes com status 200 e informações de paginação
-            return Ok(students);
+            return Ok(new { message = "Aluno deletado com sucesso" });
         }
+        return NotFound(new { message = "Aluno não encontrado" });
+    }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStudent(int id)
+    //PUT
+    [HttpPut("{ra}")]
+    public IActionResult UpdateStudent(int ra, [FromBody] Student updatedStudent)
+    {
+        try
         {
-            // Encontra o estudante pelo ID
-            var student = await _context.Student.FindAsync(id);
-
-            // Verifica se o estudante foi encontrado
-            if (student == null)
+            bool updated = _studentBusiness.UpdateStudent(ra, updatedStudent);
+            if (!updated)
             {
-                return NotFound();  // Retorna 404 caso o estudante não seja encontrado
+                return NotFound("Estudante não encontrado.");
             }
-
-            // Remove o estudante do contexto
-            _context.Student.Remove(student);
-
-            // Salva as alterações no banco
-            await _context.SaveChangesAsync();
-
-            // Retorna um status 204 (No Content) indicando sucesso na remoção
-            return Ok($"Aluno {student.Name} deletado com sucesso");
+            return Ok("Estudante atualizado com sucesso.");
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStudent(int id, Student student)
+        catch (Exception ex)
         {
-            // Verifica se o ID fornecido no URL corresponde ao ID do corpo da requisição
-            if (id != student.Id)
-            {
-                return BadRequest("O ID fornecido nao foi encontrado.");
-            }
-
-            // Busca o estudante no banco de dados pelo ID
-            var existingStudent = await _context.Student.FindAsync(id);
-            
-            // Retorna 404 se o estudante não for encontrado
-            if (existingStudent == null)
-            {
-                return NotFound();
-            }
-
-
-            existingStudent.Name = student.Name;
-            existingStudent.Email = student.Email;
-            existingStudent.Cpf = student.Cpf;
-            existingStudent.Ra = student.Ra;
-
-            // Salva as alterações no banco de dados
-            await _context.SaveChangesAsync();
-
-            // Retorna a resposta com o status 200 e o estudante atualizado
-            return Ok(existingStudent);
+            return BadRequest(ex.Message);
         }
     }
 }

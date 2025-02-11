@@ -1,11 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace aPlusApi.Models;
 
-
-public class Student
+public class StudentDTO
 {
-    [Key]
     public int Ra { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
