@@ -13,6 +13,7 @@ public class StudentRepository : IStudentRepository
         _context = context;
     }
 
+    //Method to create a new student into the db
     public long CreateStudent(Student studentData)
     {
         _context.Student.Add(studentData);
@@ -20,6 +21,7 @@ public class StudentRepository : IStudentRepository
         return studentData.Ra;
     }
 
+    //Method to return all students listed with pagination (default page size of 10 items)
     public List<StudentDTO> GetAll(int pageNumber, int pageSize)
     {
         return _context.Student
@@ -29,7 +31,7 @@ public class StudentRepository : IStudentRepository
             .ToList();
     }
 
-
+    //Method to search student by Ra
     public StudentDTO GetStudentById(int ra)
     {
         return _context.Student
@@ -38,6 +40,7 @@ public class StudentRepository : IStudentRepository
             .FirstOrDefault();
     }
 
+    //Method to search student by name
     public List<StudentDTO> GetStudentByName(string name)
     {
         return _context.Student
@@ -47,7 +50,7 @@ public class StudentRepository : IStudentRepository
     }
 
 
-    // Método para buscar estudante pelo CPF
+       //Method to search student by cpf
     public StudentDTO GetStudentByCpf(string cpf)
     {
         return _context.Students
@@ -56,6 +59,7 @@ public class StudentRepository : IStudentRepository
             .FirstOrDefault();
     }
 
+    //Method to delete student
     public bool DeleteStudent(int ra)
     {
         var student = _context.Student.Find(ra);
@@ -68,6 +72,7 @@ public class StudentRepository : IStudentRepository
         return false;
     }
 
+    //Method to updated student
     public bool UpdateStudent(int ra, Student updatedStudent)
     {
         var existingStudent = _context.Student.FirstOrDefault(s => s.Ra == ra);

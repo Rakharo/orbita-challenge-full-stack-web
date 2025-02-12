@@ -14,14 +14,14 @@ public class StudentBusiness : IStudentBusiness
 
     public long CreateStudent(Student student)
     {
-        // Regra de negócio: validar se já existe um estudante com o mesmo RA antes de criar
+        // validates if a student already have same RA
         var existingStudentRA = _studentRepository.GetStudentById(student.Ra);
         if (existingStudentRA != null)
         {
             throw new Exception("Já existe um estudante com este RA.");
         }
-        
-        // Regra de negócio: validar se já existe um estudante com o mesmo CPF
+
+        // validates if a student already have the same cpf
         var existingStudentCPF = _studentRepository.GetStudentByCpf(student.Cpf);
         if (existingStudentCPF != null)
         {
@@ -53,7 +53,7 @@ public class StudentBusiness : IStudentBusiness
 
     public bool UpdateStudent(int ra, Student updatedStudent)
     {
-        // Verifica se o estudante existe antes de atualizar
+        // validate if student exists on db
         var existingStudent = _studentRepository.GetStudentById(ra);
         if (existingStudent == null)
         {
