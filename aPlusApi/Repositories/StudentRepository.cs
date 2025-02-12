@@ -25,7 +25,7 @@ public class StudentRepository : IStudentRepository
         return _context.Student
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email })
+            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email, Cpf = student.Cpf })
             .ToList();
     }
 
@@ -34,7 +34,7 @@ public class StudentRepository : IStudentRepository
     {
         return _context.Student
             .Where(student => student.Ra == ra)
-            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email })
+            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email, Cpf = student.Cpf })
             .FirstOrDefault();
     }
 
@@ -42,8 +42,18 @@ public class StudentRepository : IStudentRepository
     {
         return _context.Student
             .Where(student => student.Name.Contains(name))
-            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email })
+            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email, Cpf = student.Cpf })
             .ToList();
+    }
+
+
+    // Método para buscar estudante pelo CPF
+    public StudentDTO GetStudentByCpf(string cpf)
+    {
+        return _context.Students
+            .Where(student => student.Cpf == cpf)
+            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email, Cpf = student.Cpf })
+            .FirstOrDefault();
     }
 
     public bool DeleteStudent(int ra)

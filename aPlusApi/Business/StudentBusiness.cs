@@ -15,10 +15,17 @@ public class StudentBusiness : IStudentBusiness
     public long CreateStudent(Student student)
     {
         // Regra de negócio: validar se já existe um estudante com o mesmo RA antes de criar
-        var existingStudent = _studentRepository.GetStudentById(student.Ra);
-        if (existingStudent != null)
+        var existingStudentRA = _studentRepository.GetStudentById(student.Ra);
+        if (existingStudentRA != null)
         {
             throw new Exception("Já existe um estudante com este RA.");
+        }
+        
+        // Regra de negócio: validar se já existe um estudante com o mesmo CPF
+        var existingStudentCPF = _studentRepository.GetStudentByCpf(student.Cpf);
+        if (existingStudentCPF != null)
+        {
+            throw new Exception("Já existe um estudante com este CPF.");
         }
 
         return _studentRepository.CreateStudent(student);
