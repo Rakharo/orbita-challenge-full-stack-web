@@ -25,9 +25,9 @@ namespace aPlusApis
             {
                 options.AddPolicy(MyAllowSpecificationOrigins, policy => 
                 {
-                    policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-                })
-            })
+                    policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -41,6 +41,7 @@ namespace aPlusApis
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseCors(MyAllowSpecificationOrigins);
             }
 
             app.UseHttpsRedirection();
