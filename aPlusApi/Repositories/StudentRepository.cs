@@ -53,7 +53,7 @@ public class StudentRepository : IStudentRepository
        //Method to search student by cpf
     public StudentDTO GetStudentByCpf(string cpf)
     {
-        return _context.Students
+        return _context.Student
             .Where(student => student.Cpf == cpf)
             .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email, Cpf = student.Cpf })
             .FirstOrDefault();

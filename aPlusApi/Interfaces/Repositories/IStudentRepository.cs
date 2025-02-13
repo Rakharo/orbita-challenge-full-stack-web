@@ -12,6 +12,7 @@ public interface IStudentRepository
 
      //Get student by ra
     StudentDTO GetStudentById(int ra);
+    StudentDTO GetStudentByCpf(string cpf);
 
     //get student by name
     List<StudentDTO> GetStudentByName(string name);
