@@ -1,4 +1,5 @@
 <template>
+  <AppTopNavBar />
   <v-main>
     <router-view />
   </v-main>
