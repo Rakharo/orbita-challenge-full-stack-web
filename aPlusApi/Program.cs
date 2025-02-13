@@ -11,6 +11,7 @@ namespace aPlusApis
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var MyAllowSpecificationOrigins = "_myAllowSpecificationOrigins";
 
             // Add services to the container.
 
@@ -20,6 +21,13 @@ namespace aPlusApis
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IStudentBusiness, StudentBusiness>();
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificationOrigins, policy => 
+                {
+                    policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                })
+            })
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>
