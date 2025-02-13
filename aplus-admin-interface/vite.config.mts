@@ -42,7 +42,7 @@ export default defineConfig({
       autoImport: true,
       styles: {
         configFile: 'src/styles/settings.scss',
-      },
+      }
     }),
     Fonts({
       google: {
