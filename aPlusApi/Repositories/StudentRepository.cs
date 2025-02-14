@@ -14,7 +14,7 @@ public class StudentRepository : IStudentRepository
     }
 
     //Method to create a new student into the db
-    public long CreateStudent(Student studentData)
+    public string  CreateStudent(Student studentData)
     {
         _context.Student.Add(studentData);
         _context.SaveChanges();
@@ -32,7 +32,7 @@ public class StudentRepository : IStudentRepository
     }
 
     //Method to search student by Ra
-    public StudentDTO GetStudentByRa(int ra)
+    public StudentDTO GetStudentByRa(string ra)
     {
         return _context.Student
             .Where(student => student.Ra == ra)
@@ -60,7 +60,7 @@ public class StudentRepository : IStudentRepository
     }
 
     //Method to delete student
-    public bool DeleteStudent(int ra)
+    public bool DeleteStudent(string ra)
     {
         var student = _context.Student.FirstOrDefault(s => s.Ra == ra); // Agora busca pelo RA corretamente
         if (student != null)
@@ -73,7 +73,7 @@ public class StudentRepository : IStudentRepository
     }
 
     //Method to updated student
-    public bool UpdateStudent(int ra, Student updatedStudent)
+    public bool UpdateStudent(string ra, Student updatedStudent)
     {
         var existingStudent = _context.Student.FirstOrDefault(s => s.Ra == ra);
 

@@ -12,7 +12,7 @@ public class StudentBusiness : IStudentBusiness
         _studentRepository = studentRepository;
     }
 
-    public long CreateStudent(StudentDTO studentDto)
+    public string  CreateStudent(StudentDTO studentDto)
     {
         // Converte StudentDTO para Student antes de chamar o repositório
         var student = new Student
@@ -44,7 +44,7 @@ public class StudentBusiness : IStudentBusiness
         return _studentRepository.GetAll(pageNumber, pageSize);
     }
 
-    public StudentDTO GetStudentByRa(int ra)
+    public StudentDTO GetStudentByRa(string ra)
     {
         return _studentRepository.GetStudentByRa(ra);
     }
@@ -54,12 +54,12 @@ public class StudentBusiness : IStudentBusiness
         return _studentRepository.GetStudentByName(name);
     }
 
-    public bool DeleteStudent(int ra)
+    public bool DeleteStudent(string ra)
     {
         return _studentRepository.DeleteStudent(ra);
     }
 
-    public bool UpdateStudent(int ra, StudentDTO updatedStudentDto)
+    public bool UpdateStudent(string ra, StudentDTO updatedStudentDto)
     {
         // validate if student exists on db
         var existingStudent = _studentRepository.GetStudentByRa(ra);

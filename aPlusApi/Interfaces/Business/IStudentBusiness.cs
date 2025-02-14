@@ -5,11 +5,11 @@ namespace aPlusApi.Interfaces.Business
 {
     public interface IStudentBusiness
     {
-        long CreateStudent(StudentDTO studentDto);
+        string  CreateStudent(StudentDTO studentDto);
         List<StudentDTO> GetAllStudents(int pageNumber, int pageSize);
-        StudentDTO GetStudentByRa(int ra);
+        StudentDTO GetStudentByRa(string ra);
         List<StudentDTO> GetStudentByName(string name);
-        bool DeleteStudent(int ra);
-        bool UpdateStudent(int ra, StudentDTO updatedStudentDto);
+        bool DeleteStudent(string ra);
+        bool UpdateStudent(string ra, StudentDTO updatedStudentDto);
     }
 }

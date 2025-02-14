@@ -39,7 +39,7 @@ public class StudentsController : ControllerBase
 
     // GET ByID
     [HttpGet("{ra}")]
-    public IActionResult GetStudentByRa(int ra)
+    public IActionResult GetStudentByRa(string ra)
     {
         var student = _studentBusiness.GetStudentByRa(ra);
         if (student == null)
@@ -51,7 +51,7 @@ public class StudentsController : ControllerBase
 
     // DELETE
     [HttpDelete("{ra}")]
-    public IActionResult DeleteStudent(int ra)
+    public IActionResult DeleteStudent(string ra)
     {
         if (_studentBusiness.DeleteStudent(ra))
         {
@@ -62,7 +62,7 @@ public class StudentsController : ControllerBase
 
     //PUT
     [HttpPut("{ra}")]
-    public IActionResult UpdateStudent(int ra, [FromBody] StudentDTO updatedStudentDto)
+    public IActionResult UpdateStudent(string ra, [FromBody] StudentDTO updatedStudentDto)
     {
         try
         {
