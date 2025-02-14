@@ -32,7 +32,7 @@ public class StudentRepository : IStudentRepository
     }
 
     //Method to search student by Ra
-    public StudentDTO GetStudentById(int ra)
+    public StudentDTO GetStudentByRa(int ra)
     {
         return _context.Student
             .Where(student => student.Ra == ra)
@@ -50,7 +50,7 @@ public class StudentRepository : IStudentRepository
     }
 
 
-       //Method to search student by cpf
+    //Method to search student by cpf
     public StudentDTO GetStudentByCpf(string cpf)
     {
         return _context.Student
@@ -62,7 +62,7 @@ public class StudentRepository : IStudentRepository
     //Method to delete student
     public bool DeleteStudent(int ra)
     {
-        var student = _context.Student.Find(ra);
+        var student = _context.Student.FirstOrDefault(s => s.Ra == ra); // Agora busca pelo RA corretamente
         if (student != null)
         {
             _context.Student.Remove(student);

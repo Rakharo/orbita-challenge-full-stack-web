@@ -8,10 +8,15 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Student> Student  { get; set; }
+    public DbSet<Student> Student { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Student>()
+            .HasKey(s => s.Id); // Confirma que Id é chave primária
+        modelBuilder.Entity<Student>()
+            .Property(s => s.Id)
+            .ValueGeneratedOnAdd(); // Indica que o valor será gerado pelo banco
         modelBuilder.Entity<Student>().ToTable("students");
     }
 }

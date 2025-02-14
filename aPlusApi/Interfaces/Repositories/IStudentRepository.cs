@@ -11,7 +11,7 @@ public interface IStudentRepository
     List<StudentDTO> GetAll(int pageNumber, int pageSize); 
 
      //Get student by ra
-    StudentDTO GetStudentById(int ra);
+    StudentDTO GetStudentByRa(int ra);
     StudentDTO GetStudentByCpf(string cpf);
 
     //get student by name

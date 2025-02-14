@@ -17,11 +17,11 @@ public class StudentsController : ControllerBase
 
     // POST
     [HttpPost]
-    public IActionResult CreateStudent([FromBody] Student student)
+    public IActionResult CreateStudent([FromBody] StudentDTO studentDto)
     {
         try
         {
-            var ra = _studentBusiness.CreateStudent(student);
+            var ra = _studentBusiness.CreateStudent(studentDto);
             return Ok(new { message = "Aluno criado com sucesso", ra });
         }
         catch (Exception ex)
@@ -39,9 +39,9 @@ public class StudentsController : ControllerBase
 
     // GET ByID
     [HttpGet("{ra}")]
-    public IActionResult GetStudentById(int ra)
+    public IActionResult GetStudentByRa(int ra)
     {
-        var student = _studentBusiness.GetStudentById(ra);
+        var student = _studentBusiness.GetStudentByRa(ra);
         if (student == null)
         {
             return NotFound(new { message = "Aluno não encontrado" });
@@ -62,11 +62,11 @@ public class StudentsController : ControllerBase
 
     //PUT
     [HttpPut("{ra}")]
-    public IActionResult UpdateStudent(int ra, [FromBody] Student updatedStudent)
+    public IActionResult UpdateStudent(int ra, [FromBody] StudentDTO updatedStudentDto)
     {
         try
         {
-            bool updated = _studentBusiness.UpdateStudent(ra, updatedStudent);
+            bool updated = _studentBusiness.UpdateStudent(ra, updatedStudentDto);
             if (!updated)
             {
                 return NotFound("Estudante não encontrado.");

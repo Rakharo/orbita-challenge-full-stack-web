@@ -12,10 +12,18 @@ public class StudentBusiness : IStudentBusiness
         _studentRepository = studentRepository;
     }
 
-    public long CreateStudent(Student student)
+    public long CreateStudent(StudentDTO studentDto)
     {
+        // Converte StudentDTO para Student antes de chamar o repositório
+        var student = new Student
+        {
+            Ra = studentDto.Ra,
+            Name = studentDto.Name,
+            Email = studentDto.Email,
+            Cpf = studentDto.Cpf
+        };
         // validates if a student already have same RA
-        var existingStudentRA = _studentRepository.GetStudentById(student.Ra);
+        var existingStudentRA = _studentRepository.GetStudentByRa(student.Ra);
         if (existingStudentRA != null)
         {
             throw new Exception("Já existe um estudante com este RA.");
@@ -36,9 +44,9 @@ public class StudentBusiness : IStudentBusiness
         return _studentRepository.GetAll(pageNumber, pageSize);
     }
 
-    public StudentDTO GetStudentById(int ra)
+    public StudentDTO GetStudentByRa(int ra)
     {
-        return _studentRepository.GetStudentById(ra);
+        return _studentRepository.GetStudentByRa(ra);
     }
 
     public List<StudentDTO> GetStudentByName(string name)
@@ -51,14 +59,21 @@ public class StudentBusiness : IStudentBusiness
         return _studentRepository.DeleteStudent(ra);
     }
 
-    public bool UpdateStudent(int ra, Student updatedStudent)
+    public bool UpdateStudent(int ra, StudentDTO updatedStudentDto)
     {
         // validate if student exists on db
-        var existingStudent = _studentRepository.GetStudentById(ra);
+        var existingStudent = _studentRepository.GetStudentByRa(ra);
         if (existingStudent == null)
         {
             throw new Exception("Estudante não encontrado.");
         }
+        var updatedStudent = new Student
+        {
+            Ra = ra, // Mantemos o mesmo RA
+            Name = updatedStudentDto.Name,
+            Email = updatedStudentDto.Email,
+            Cpf = updatedStudentDto.Cpf
+        };
 
         return _studentRepository.UpdateStudent(ra, updatedStudent);
     }
