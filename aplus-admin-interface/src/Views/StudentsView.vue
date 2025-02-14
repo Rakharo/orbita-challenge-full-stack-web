@@ -16,7 +16,7 @@
         <v-col>
           <v-text-field
             v-model="filter.ra"
-            label="Registro acadêmico"
+            label="Registro acadêmico (RA)"
             @change="handleListFilter"
           />
         </v-col>
@@ -48,7 +48,7 @@
       :server-items-length="totalItems"
       :hover="true"
       :page="page"
-      @update:page="handleGetStudents"
+      @update:options="handleTableOptions"
     >
       <template #item.actions="{ item }">
         <v-tooltip text="Editar">
@@ -90,7 +90,7 @@
     :model-value="warningModal"
     :modal-text="`Deseja excluir o(a) aluno(a) ${selectedStudent.name}?`"
     @close-modal="warningModal = false"
-    @submit="handleDelete"
+    @submit="handleDeleteStudent"
   />
 </template>
 
@@ -115,7 +115,7 @@ const showFilter = ref<boolean>(false);
 const isEdit = ref<boolean>(false);
 const page = ref(1);
 const cache = new Map();
-const totalItems = ref(0)
+const totalItems = ref(0);
 const filter = ref({
   name: "",
   ra: "",
@@ -137,8 +137,16 @@ const headers = ref([
 
 const options = ref({
   page: 1, // Initial page
-  itemsPerPage: 5,
+  itemsPerPage: 10,
 });
+
+function handleTableOptions(newOptions: any) {
+  // Verifique se o valor da página mudou
+  if (newOptions.page !== page.value) {
+    page.value = newOptions.page;
+    handleGetStudents(page.value);
+  }
+}
 
 function handleStudentModal() {
   studentModal.value = true;
@@ -199,25 +207,15 @@ function handleListFilter() {
 }
 
 async function handleGetStudents(newPage: number) {
-  if (cache.has(newPage)) {
-    filteredList.value = cache.get(newPage);
-  } else {
-    const response = await getAllStudents(newPage, options.value.itemsPerPage);
-    if (response) {
-      cache.set(newPage, response);
-      studentList.value = response;
-      filteredList.value = response;
-
-      if (response.length) {
-        totalItems.value = response.length +1;
-      } else if (response.length < options.value.itemsPerPage) {
-        totalItems.value = (newPage - 1) * options.value.itemsPerPage + response.length;
-      } else {
-        totalItems.value += options.value.itemsPerPage; // Evita bloqueio prematuro
-      }
-    }
+  const response = await getAllStudents(newPage, options.value.itemsPerPage);
+  if (response && response.students) {
+    componentKey.value++;
+    cache.set(newPage, response.students);
+    studentList.value = response.students;
+    filteredList.value = response.students;
+    totalItems.value = response.totalCount; // Atualize o número total de itens da API
   }
-  page.value = newPage;
+  page.value = newPage; // Atualize a página
 }
 
 async function handleCreateStudent(student: iStudent) {
@@ -244,7 +242,7 @@ async function handleEditStudent(student: iStudent) {
   }
 }
 
-async function handleDelete() {
+async function handleDeleteStudent() {
   const response = await deleteStudent(selectedStudent.value.ra);
   if (response) {
     handleGetStudents(1);
@@ -252,6 +250,20 @@ async function handleDelete() {
     warningModal.value = false;
   }
 }
+
+watch(totalItems, (newTotal) => {
+  console.log("Total de itens atualizado para: ", newTotal);
+  if (newTotal <= options.value.itemsPerPage) {
+    options.value.page = 1; // Reseta para a primeira página se os itens forem menores que o número de itens por página
+  }
+});
+watch(page, (newPage) => {
+  console.log("Página atualizada para:", newPage);
+  handleGetStudents(newPage);
+});
+watch(totalItems, () => {
+  componentKey.value++;
+});
 
 onMounted(() => {
   handleGetStudents(1);
