@@ -1,6 +1,6 @@
 export interface iStudent {
-    Ra: number,
-    Name: string,
-    Cpf: string,
-    Email: string
+    ra: number | undefined,
+    name: string,
+    cpf: string,
+    email: string
 }
