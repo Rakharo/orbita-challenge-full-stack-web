@@ -20,11 +20,19 @@
         />
       </v-form>
       <template v-slot:actions>
-        <div>
-          <v-btn class="ms-auto" text="Cancelar" @click="handleCancel" />
+        <div class="btnWrapper">
+          <v-btn
+            class="ms-auto"
+            text="Cancelar"
+            color="gray"
+            variant="outlined"
+            @click="handleCancel"
+          />
           <v-btn
             class="ms-auto"
             :text="props.isEdit ? 'Atualizar' : 'Cadastrar'"
+            color="#01aab0"
+            variant="tonal"
             @click="handleSubmitForm"
           />
         </div>
@@ -49,7 +57,7 @@ const form = ref();
 const studentForm = ref<iStudent>(
   !props.student
     ? {
-        ra: undefined,
+        ra: "",
         name: "",
         email: "",
         cpf: "",
@@ -72,6 +80,11 @@ function handleSubmitForm() {
   .studentForm {
     width: 80%;
     align-self: center;
+  }
+
+  .btnWrapper {
+    display: flex;
+    gap: 1em;
   }
 }
 </style>
