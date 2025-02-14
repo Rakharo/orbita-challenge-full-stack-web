@@ -14,22 +14,39 @@ public class StudentRepository : IStudentRepository
     }
 
     //Method to create a new student into the db
-    public string  CreateStudent(Student studentData)
+    public string CreateStudent(Student studentData)
     {
         _context.Student.Add(studentData);
         _context.SaveChanges();
         return studentData.Ra;
     }
 
-    //Method to return all students listed with pagination (default page size of 10 items)
-    public List<StudentDTO> GetAll(int pageNumber, int pageSize)
+    //Method to return all students listed with pagination (default page size of 10 items)public class StudentListResponse
+
+
+    public StudentListResponse GetAll(int pageNumber, int pageSize)
     {
-        return _context.Student
+        int totalStudents = _context.Student.Count();
+
+        var students = _context.Student
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(student => new StudentDTO { Ra = student.Ra, Name = student.Name, Email = student.Email, Cpf = student.Cpf })
+            .Select(student => new StudentDTO
+            {
+                Ra = student.Ra,
+                Name = student.Name,
+                Email = student.Email,
+                Cpf = student.Cpf
+            })
             .ToList();
+
+        return new StudentListResponse
+        {
+            Students = students,
+            TotalCount = totalStudents
+        };
     }
+
 
     //Method to search student by Ra
     public StudentDTO GetStudentByRa(string ra)

@@ -12,7 +12,7 @@ public class StudentBusiness : IStudentBusiness
         _studentRepository = studentRepository;
     }
 
-    public string  CreateStudent(StudentDTO studentDto)
+    public string CreateStudent(StudentDTO studentDto)
     {
         // Converte StudentDTO para Student antes de chamar o repositório
         var student = new Student
@@ -39,10 +39,11 @@ public class StudentBusiness : IStudentBusiness
         return _studentRepository.CreateStudent(student);
     }
 
-    public List<StudentDTO> GetAllStudents(int pageNumber, int pageSize)
+    public StudentListResponse GetAllStudents(int pageNumber, int pageSize)
     {
         return _studentRepository.GetAll(pageNumber, pageSize);
     }
+
 
     public StudentDTO GetStudentByRa(string ra)
     {

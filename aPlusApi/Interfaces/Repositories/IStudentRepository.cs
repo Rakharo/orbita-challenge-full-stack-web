@@ -4,22 +4,24 @@ namespace aPlusApi.Interfaces.Repositories;
 
 public interface IStudentRepository
 {
-    //creates new student
-    string  CreateStudent(Student studentData);
+    // Cria um novo estudante
+    string CreateStudent(Student studentData);
     
-    //get all student with pagination
-    List<StudentDTO> GetAll(int pageNumber, int pageSize); 
+    // Retorna a lista paginada e o total de alunos
+    StudentListResponse GetAll(int pageNumber, int pageSize);
 
-     //Get student by ra
+    // Obtém um estudante por RA
     StudentDTO GetStudentByRa(string ra);
+
+    // Obtém um estudante por CPF
     StudentDTO GetStudentByCpf(string cpf);
 
-    //get student by name
+    // Obtém estudantes pelo nome
     List<StudentDTO> GetStudentByName(string name);
 
-    //update a student
+    // Atualiza um estudante
     bool UpdateStudent(string ra, Student studentData);
 
-    //delete a student
+    // Deleta um estudante
     bool DeleteStudent(string ra);
 }
