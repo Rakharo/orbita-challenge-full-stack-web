@@ -48,7 +48,7 @@ function handleSubmit() {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .btnWrapper {
   display: flex;
   gap: 1em;

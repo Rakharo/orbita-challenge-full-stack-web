@@ -270,7 +270,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .filterWrapper {
   padding: 1em;
 }

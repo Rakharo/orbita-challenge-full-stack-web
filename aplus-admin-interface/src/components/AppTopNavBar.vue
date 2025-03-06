@@ -9,7 +9,7 @@
 <script setup lang="ts">
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .logoImg {
         width: 100px;
         height: 100px;

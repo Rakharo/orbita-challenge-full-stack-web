@@ -17,7 +17,7 @@ function handleHomeRoute() {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .menuItems {
     display: flex;
     flex-direction: column;

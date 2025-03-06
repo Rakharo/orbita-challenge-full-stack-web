@@ -80,7 +80,7 @@ async function handleSubmitForm() {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .studentModal {
   padding: 1em !important;
 

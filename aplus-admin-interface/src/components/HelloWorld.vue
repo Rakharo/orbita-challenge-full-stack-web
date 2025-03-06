@@ -16,7 +16,7 @@
 //
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .textWrapper {
   display: flex;
   justify-content: center;
